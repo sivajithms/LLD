@@ -38,30 +38,24 @@ class CartPrinter {
     }
 }
 
-interface CartDBInterface {
-    save(): void
-}
-
-
-class CartDBSQL implements CartDBInterface {
+abstract class CartDB { //we can also do this with interface, but here we used abstraction, inheritance and polymorphism
     private cart: Cart;
 
     constructor(cart: Cart) {
         this.cart = cart;
     }
 
+    abstract save(): void;
+}
+
+
+class CartDBSQL extends CartDB {
     save(): void {
         console.log('saving.... to SQL');
     }
 }
 
-class CartDBMongoDB implements CartDBInterface {
-    private cart: Cart;
-
-    constructor(cart: Cart) {
-        this.cart = cart;
-    }
-
+class CartDBMongoDB extends CartDB {
     save(): void {
         console.log('saving.... to mongodb');
     }
