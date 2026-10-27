@@ -16,7 +16,7 @@ interface PaymentMethod {
 
 class UpiPayment implements PaymentMethod {
     methodName: string;
-    constructor(name:string) {
+    constructor(name: string) {
         this.methodName = name;
     }
     async pay(amount: number): Promise<boolean> {
@@ -39,19 +39,28 @@ class CardPayment implements PaymentMethod {
     }
 }
 
-async function checkout(method: PaymentMethod, amount: number): Promise<void> {
+class CheckoutService {
 
-    if(amount <= 0) throw new Error("invalid payment amount");
+    async checkout(method: PaymentMethod, amount: number): Promise<void> {
 
-    const done = await method.pay(amount);
+        if (amount <= 0) throw new Error("invalid payment amount");
 
-    if(done) console.log(`${method.methodName}: payment successful`);
-    else console.log(`${method.methodName}: payment failed`);
+        const done = await method.pay(amount);
 
+        if (done) console.log(`${method.methodName}: payment successful`);
+        else console.log(`${method.methodName}: payment failed`);
+
+    }
 }
+
+
 
 const upi = new UpiPayment("UPI");
 const card = new CardPayment("Credit Card");
 
-checkout(upi, 5000);
-checkout(card, 10)
+const checkout = new CheckoutService();
+
+checkout.checkout(upi, 5000);
+checkout.checkout(card, 10);
+
+export { };

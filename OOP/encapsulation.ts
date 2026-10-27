@@ -30,3 +30,4 @@ account.deposit(34);
 console.log(account.getBalance());
 
 
+export { };

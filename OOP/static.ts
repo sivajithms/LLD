@@ -26,3 +26,5 @@ dog2.bark(); // Max says Woof!
 
 // Static method
 Dog.species(); // Dogs are Canis familiaris
+
+export {};
