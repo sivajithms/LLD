@@ -25,3 +25,6 @@ const bmw = new Car("BMW", 100);
 
 console.log(honda.display());
 console.log(bmw.display());
+
+
+export { };
