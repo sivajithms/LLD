@@ -77,3 +77,5 @@ const cartDB = new CartDB(cart);
 
 cartPrinter.printInvoice();
 cartDB.saveCartToDB();
+
+export { };
