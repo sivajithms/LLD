@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A simple local document editor for adding text and images."
+    />
+    <title>DOCX Editor</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js?v=2" type="module"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="DOCX Editor home">
+        <span class="brand-mark" aria-hidden="true">D</span>
+        <span>Docu<span class="brand-accent">ment</span></span>
+      </a>
+      <div class="topbar-status">
+        <span class="status-dot" aria-hidden="true"></span>
+        Local editor
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="sidebar" aria-labelledby="tools-heading">
+        <div class="sidebar-heading">
+          <p class="eyebrow">YOUR WORKSPACE</p>
+          <h1 id="tools-heading">Add to your page</h1>
+          <p class="sidebar-description">
+            Build your document one piece at a time.
+          </p>
+        </div>
+
+        <form class="tool-card" id="text-form">
+          <label class="field-label" for="text-input">
+            <span class="tool-icon text-icon" aria-hidden="true">T</span>
+            Add text
+          </label>
+          <textarea
+            id="text-input"
+            name="text"
+            rows="4"
+            placeholder="Write something for your document..."
+            required
+          ></textarea>
+          <button class="button button-primary" type="submit">
+            <span aria-hidden="true">+</span>
+            Add text
+          </button>
+        </form>
+
+        <form class="tool-card" id="image-form">
+          <label class="field-label" for="image-input">
+            <span class="tool-icon image-icon" aria-hidden="true">▧</span>
+            Add an image
+          </label>
+          <label class="file-picker" for="image-input">
+            <span class="upload-icon" aria-hidden="true">↑</span>
+            <span id="image-file-name">Choose an image</span>
+          </label>
+          <input
+            class="visually-hidden"
+            id="image-input"
+            name="image"
+            type="file"
+            accept="image/*"
+          />
+          <button class="button button-primary" id="add-image-button" type="submit" disabled>
+            <span aria-hidden="true">+</span>
+            Add image
+          </button>
+        </form>
+
+        <p class="sidebar-note" id="status-message" aria-live="polite">
+          Text is saved with the document. Images are saved in an assets folder.
+        </p>
+      </aside>
+
+      <section class="editor" aria-labelledby="document-title">
+        <div class="editor-toolbar">
+          <div class="document-label">
+            <span class="document-icon" aria-hidden="true">▤</span>
+            <div>
+              <h2 id="document-title">Untitled document</h2>
+              <p id="page-count" aria-live="polite">0 items</p>
+            </div>
+          </div>
+          <button class="button button-secondary" id="clear-button" type="button" disabled>
+            Clear page
+          </button>
+        </div>
+
+        <div class="page-stage">
+          <article class="document-page" id="document-page" aria-label="Document preview">
+            <div class="empty-state" id="empty-state">
+              <span class="empty-icon" aria-hidden="true">✦</span>
+              <h3>Your page starts here</h3>
+              <p>Add text or an image to see it appear in your document.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

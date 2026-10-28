@@ -7,3 +7,5 @@ type docElement =
         type: "image";
         content: { filePath: string };
     }
+
+export { docElement };

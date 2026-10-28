@@ -1,0 +1,20 @@
+{
+  "elements": [
+    {
+      "textElement": {
+        "type": "text",
+        "content": {
+          "text": "sdfga"
+        }
+      }
+    },
+    {
+      "imageElement": {
+        "type": "image",
+        "content": {
+          "filePath": "assets/images/0afcd2db-f186-46d4-88f9-26a565e5dc11.jpg"
+        }
+      }
+    }
+  ]
+}

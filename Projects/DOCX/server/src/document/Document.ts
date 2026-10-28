@@ -1,4 +1,5 @@
 import { DocumentElement } from "./elements/DocumentElement";
+import { docElement } from "./types";
 
 class DocumentO {
     private elements: DocumentElement[];

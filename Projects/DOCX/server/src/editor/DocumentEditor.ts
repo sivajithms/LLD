@@ -1,6 +1,7 @@
 import { DocumentO } from "../document/Document";
 import { ImageElement } from "../document/elements/ImageElement";
 import { TextElement } from "../document/elements/TextElement";
+import { docElement } from "../document/types";
 import { Persistence } from "../persistence/Persistence";
 
 class DocumetEditor {

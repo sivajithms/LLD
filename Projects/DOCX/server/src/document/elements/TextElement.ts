@@ -1,3 +1,4 @@
+import { docElement } from "../types";
 import { DocumentElement } from "./DocumentElement";
 
 class TextElement extends DocumentElement {
