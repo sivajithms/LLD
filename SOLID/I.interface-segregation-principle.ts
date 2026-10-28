@@ -50,3 +50,5 @@ function main() {
 }
 
 main();
+
+export {};
