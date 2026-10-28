@@ -46,29 +46,22 @@ class SavingsAccount extends WithdrawableAccount {
 }
 
 class CurrentAccount extends WithdrawableAccount {
-    private _balance: number;
+    private balance: number;
 
     constructor(initialBalance: number) {
         super();
-        this._balance = initialBalance;
-    }
-
-    private set balance(value: number) {
-        this._balance = value;
-        console.log("CurrentAccount Balance changed:", this._balance);
-    }
-
-    private get balance(): number {
-        return this._balance;
+        this.balance = initialBalance;
     }
 
     deposit(amount: number): void {
         this.balance += amount;
+        console.log("deposited to current account, balance: ", this.balance);
     }
 
     withdraw(amount: number): void {
         if (this.balance >= amount) {
             this.balance -= amount;
+            console.log("withdrawn from current account, balance: ", this.balance);
         } else {
             throw new Error("Insufficient funds");
         }
@@ -76,24 +69,16 @@ class CurrentAccount extends WithdrawableAccount {
 }
 
 class FixedAccount extends DepositOnlyAccount {
-    private _balance: number;
+    private balance: number;
 
     constructor(initialBalance: number) {
         super();
-        this._balance = initialBalance;
-    }
-
-    private set balance(value: number) {
-        this._balance = value;
-        console.log("FixedAccount Balance changed:", this._balance);
-    }
-
-    private get balance(): number {
-        return this._balance;
+        this.balance = initialBalance;
     }
 
     deposit(amount: number): void {
         this.balance += amount;
+        console.log("deposited to fixed account, balance: ", this.balance);
     }
 }
 
