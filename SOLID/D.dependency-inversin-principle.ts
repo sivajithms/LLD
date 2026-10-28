@@ -1,4 +1,4 @@
-//high level modules should not be dependent on low level modules.
+//  high level modules should not be dependent on low level modules.
 //  Both should depend on abstractions.
 
 interface DatabaseOperations {
