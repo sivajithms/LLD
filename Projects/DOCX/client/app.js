@@ -14,6 +14,7 @@ async function displayAll() {
   try {
     const response = await fetch(`${baseurl}api/documents`);
     const result = await response.json();
+    console.log(result);
     if (!response.ok) throw new Error(result.error || "Failed to load document.");
 
     documentPage.querySelectorAll(".document-block").forEach((block) => block.remove());
@@ -22,7 +23,9 @@ async function displayAll() {
       content.className = element.type === "text" ? "document-text" : "document-image";
       if (element.type === "text") content.textContent = element.content.text;
       else {
-        content.src = new URL(element.content.filePath, baseurl);
+        content.src = element.content.filePath;
+        console.log(content.src);
+        
         content.alt = "Document image";
       }
 
@@ -32,7 +35,8 @@ async function displayAll() {
       documentPage.append(block);
     }
 
-    emptyState.hidden = result.data.length > 0;
+    if (result.data.length > 0) emptyState.remove();
+    else documentPage.prepend(emptyState);
     pageCount.textContent = `${result.data.length} ${result.data.length === 1 ? "item" : "items"}`;
   } catch (error) {
     statusMessage.textContent = error.message;
