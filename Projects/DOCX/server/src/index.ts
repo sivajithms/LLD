@@ -7,3 +7,6 @@ const document = fileStorage.loadDocument() ?? new DocumentO();
 const editor = new DocumetEditor(document, fileStorage);
 
 export { editor };
+
+
+//test cicd
