@@ -20,6 +20,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
+      - name: Debug GitHub OIDC claims
+        uses: github/actions-oidc-debugger@v1
+
       - name: Validate AWS configuration
         env:
           ROLE_ARN: ${{ vars.AWS_ROLE_ARN }}
