@@ -29,19 +29,18 @@ jobs:
           echo "Workflow: $GITHUB_WORKFLOW"
 
       - name: Inspect OIDC claims safely
-        env:
-          OIDC_REQUEST_URL: ${{ env.ACTIONS_ID_TOKEN_REQUEST_URL }}
-          OIDC_REQUEST_TOKEN: ${{ env.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}
         run: |
           set +x
+          set -e
 
           RESPONSE=$(curl -fsS \
-            -H "Authorization: bearer $OIDC_REQUEST_TOKEN" \
-            "${OIDC_REQUEST_URL}&audience=sts.amazonaws.com")
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com")
 
-          TOKEN=$(printf '%s' "$RESPONSE" | jq -r '.value')
+          TOKEN=$(printf '%s' "$RESPONSE" | jq -er '.value')
 
-          TOKEN="$TOKEN" python3 - <<'PY'
+          export TOKEN
+          python3 - <<'PY'
           import os, json, base64
 
           token = os.environ["TOKEN"]
