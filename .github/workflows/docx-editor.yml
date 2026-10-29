@@ -1,45 +1,63 @@
-steps:
-  - name: Check out code
-    uses: actions/checkout@v4
+name: Deploy DOCX to AWS
 
-  - name: Validate AWS configuration
-    env:
-      ROLE_ARN: ${{ vars.AWS_ROLE_ARN }}
-      AWS_REGION: ${{ vars.AWS_REGION }}
-    run: |
-      if [ -z "$ROLE_ARN" ]; then
-        echo "::error::AWS_ROLE_ARN variable is empty or unavailable"
-        exit 1
-      fi
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Projects/DOCX/**'
+      - '.github/workflows/docx-editor.yml'
 
-      if [[ ! "$ROLE_ARN" =~ ^arn:aws:iam::[0-9]{12}:role/.+ ]]; then
-        echo "::error::AWS_ROLE_ARN is not a valid IAM role ARN"
-        exit 1
-      fi
+permissions:
+  id-token: write
+  contents: read
 
-      if [ -z "$AWS_REGION" ]; then
-        echo "::error::AWS_REGION variable is empty or unavailable"
-        exit 1
-      fi
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
 
-      echo "Role ARN format is valid"
-      echo "AWS Region: $AWS_REGION"
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
 
-  - name: Configure AWS credentials
-    uses: aws-actions/configure-aws-credentials@v4
-    with:
-      role-to-assume: ${{ vars.AWS_ROLE_ARN }}
-      aws-region: ${{ vars.AWS_REGION }}
+      - name: Validate AWS configuration
+        env:
+          ROLE_ARN: ${{ vars.AWS_ROLE_ARN }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+        run: |
+          if [ -z "$ROLE_ARN" ]; then
+            echo "::error::AWS_ROLE_ARN variable is empty or unavailable"
+            exit 1
+          fi
 
-  - name: Sign in to Amazon ECR
-    id: ecr
-    uses: aws-actions/amazon-ecr-login@v2
+          if [[ ! "$ROLE_ARN" =~ ^arn:aws:iam::[0-9]{12}:role/.+ ]]; then
+            echo "::error::AWS_ROLE_ARN is not a valid IAM role ARN"
+            exit 1
+          fi
 
-  - name: Build and push Docker image
-    uses: docker/build-push-action@v6
-    with:
-      context: ./Projects/DOCX
-      push: true
-      tags: |
-        ${{ steps.ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:latest
-        ${{ steps.ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ github.sha }}
+          if [ -z "$AWS_REGION" ]; then
+            echo "::error::AWS_REGION variable is empty or unavailable"
+            exit 1
+          fi
+
+          echo "Role ARN format is valid"
+          echo "AWS Region: $AWS_REGION"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Sign in to Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./Projects/DOCX
+          push: true
+          tags: |
+            ${{ steps.ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:latest
+            ${{ steps.ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ github.sha }}
