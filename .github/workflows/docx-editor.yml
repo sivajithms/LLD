@@ -20,6 +20,14 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
+      - name: Show GitHub OIDC subject
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Ref: $GITHUB_REF"
+          echo "Workflow: $GITHUB_WORKFLOW"
+
       - name: Validate AWS configuration
         env:
           ROLE_ARN: ${{ vars.AWS_ROLE_ARN }}
