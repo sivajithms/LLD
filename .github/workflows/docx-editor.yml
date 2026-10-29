@@ -28,6 +28,33 @@ jobs:
           echo "Ref: $GITHUB_REF"
           echo "Workflow: $GITHUB_WORKFLOW"
 
+      - name: Inspect OIDC claims safely
+        env:
+          OIDC_REQUEST_URL: ${{ env.ACTIONS_ID_TOKEN_REQUEST_URL }}
+          OIDC_REQUEST_TOKEN: ${{ env.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}
+        run: |
+          set +x
+
+          RESPONSE=$(curl -fsS \
+            -H "Authorization: bearer $OIDC_REQUEST_TOKEN" \
+            "${OIDC_REQUEST_URL}&audience=sts.amazonaws.com")
+
+          TOKEN=$(printf '%s' "$RESPONSE" | jq -r '.value')
+
+          TOKEN="$TOKEN" python3 - <<'PY'
+          import os, json, base64
+
+          token = os.environ["TOKEN"]
+          payload = token.split(".")[1]
+          payload += "=" * (-len(payload) % 4)
+          claims = json.loads(base64.urlsafe_b64decode(payload))
+
+          print("OIDC sub:", claims.get("sub"))
+          print("OIDC aud:", claims.get("aud"))
+          PY
+
+          unset TOKEN RESPONSE
+
       - name: Validate AWS configuration
         env:
           ROLE_ARN: ${{ vars.AWS_ROLE_ARN }}
