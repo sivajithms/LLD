@@ -34,3 +34,5 @@ const orderService = new OrderService([
 ]);
 
 orderService.placeOrder(12345);
+
+export {};
