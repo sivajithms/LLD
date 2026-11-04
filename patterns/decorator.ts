@@ -1,5 +1,10 @@
 //lets you add or remove extra behavior to an object dynamically by wrapping it, without modifying its original class.
 
+function Logger(constructor: Function) {
+    console.log("Class created:", constructor.name);
+}
+
+@Logger
 abstract class Character {
     abstract getAbilities(): void;
 }
@@ -12,9 +17,10 @@ class Mario extends Character {
     }
 }
 
-class WithHeightUp implements Character {
+class WithHeightUp extends Character {
     private c: Character;
-    constructor(c: Character) {        
+    constructor(c: Character) { 
+        super();      
         this.c = c;
     }
 
@@ -23,9 +29,10 @@ class WithHeightUp implements Character {
     }
 }
 
-class WithGun implements Character {
+class WithGun extends Character {
     private c: Character;
     constructor(c: Character) {
+        super()
         this.c = c;
     }
 
