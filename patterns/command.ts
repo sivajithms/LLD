@@ -43,3 +43,6 @@ const controller = new GameController();
 
 controller.pressButton(jump);      // Mario jumped!
 controller.pressButton(moveRight); // Mario moved right!
+
+
+export {};
