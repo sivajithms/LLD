@@ -67,3 +67,5 @@ console.log(mario.getAbilities());
 mario = new WithStarPowerUp(mario);
 
 console.log(mario.getAbilities());
+
+export {};
